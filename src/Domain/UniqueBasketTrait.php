@@ -46,7 +46,7 @@ trait UniqueBasketTrait
      *
      * @return int
      */
-    public function countCommonBalls(UniqueBasketTrait $other)
+    public function countCommonBalls(IBasket $other)
     {
         $result = 0;
         foreach ($other as $ball) {

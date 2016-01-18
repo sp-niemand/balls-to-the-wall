@@ -5,9 +5,9 @@
  * @author Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
  */
 
-namespace test\domain;
-use bttw\domain\HashMapBasket;
-use bttw\domain\Ball;
+namespace Test\Domain;
+use Bttw\Domain\HashMapBasket;
+use Bttw\Domain\Ball;
 
 /**
  * HashMapBasket test
