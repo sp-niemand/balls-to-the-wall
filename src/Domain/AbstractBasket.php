@@ -2,32 +2,45 @@
 /**
  * Class AbstractBasket
  *
- * @author Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
- * @package domain
+ * PHP version 5.5
+ *
+ * @category Bttw
+ * @package  Domain
+ * @author   Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * @license  https://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/sp-niemand/balls-to-the-wall
  */
 
-namespace bttw\domain;
+namespace Bttw\Domain;
 
 /**
  * Abstract basket class
  *
- * @author Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
- * @package domain
+ * @category Bttw
+ * @package  Domain
+ * @author   Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * @license  https://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/sp-niemand/balls-to-the-wall
  */
 abstract class AbstractBasket implements IBasket
 {
-    /** @var int Basket size */
-    private $size;
+    /**
+     * Basket size
+     * @var int
+     */
+    private $_size;
 
     /**
-     * @param int $size Basket size
+     * Basket size
+     *
+     * @param int $size The size
      */
     public function __construct($size)
     {
-        if (! is_integer($size) || $size < 1) {
+        if (!is_integer($size) || $size < 1) {
             throw new \InvalidArgumentException('Size must be a positive integer');
         }
-        $this->size = $size;
+        $this->_size = $size;
     }
 
     /**
@@ -47,11 +60,13 @@ abstract class AbstractBasket implements IBasket
     /**
      * Puts ball into the basket
      *
-     * @param Ball $ball
+     * @param Ball $ball The ball
+     *
+     * @return void
      */
     public function putBall(Ball $ball)
     {
-        if ($this->count() >= $this->size) {
+        if ($this->count() >= $this->_size) {
             throw new \OverflowException('Can not add a ball, the basket is full');
         }
         $this->putBallInternal($ball);
@@ -60,14 +75,16 @@ abstract class AbstractBasket implements IBasket
     /**
      * Actual ball adding code
      *
-     * @param Ball $ball
+     * @param Ball $ball The ball
+     *
+     * @return void
      */
     abstract protected function putBallInternal(Ball $ball);
 
     /**
      * Checks if there is the ball given in the basket
      *
-     * @param Ball $ball
+     * @param Ball $ball The ball
      *
      * @return bool
      */
@@ -88,6 +105,6 @@ abstract class AbstractBasket implements IBasket
      */
     public function getSize()
     {
-        return $this->size;
+        return $this->_size;
     }
 }

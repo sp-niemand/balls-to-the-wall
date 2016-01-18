@@ -2,39 +2,53 @@
 /**
  * Class HashMapBasket
  *
- * @author Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
- * @package domain
+ * PHP version 5.5
+ *
+ * @category Bttw
+ * @package  Domain
+ * @author   Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * @license  https://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/sp-niemand/balls-to-the-wall
  */
 
-namespace bttw\domain;
+namespace Bttw\Domain;
 use Traversable;
 
 /**
  * Description of the class
  *
- * @author Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
- * @package domain
+ * @category Bttw
+ * @package  Domain
+ * @author   Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * @license  https://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/sp-niemand/balls-to-the-wall
  */
 class HashMapBasket extends AbstractBasket
 {
     use UniqueBasketTrait;
 
-    /** @var array Hash map used to hold balls info */
-    private $ballNumbersHashMap = [];
+    /**
+     * Hash map used to hold balls info
+     * @var array
+     */
+    private $_ballNumbersHashMap = [];
 
-    /** @var int */
-    private $count = 0;
+    /**
+     * Ball counter
+     * @var int
+     */
+    private $_count = 0;
 
     /**
      * Checks if there is the ball given in the basket
      *
-     * @param Ball $ball
+     * @param Ball $ball The ball to check
      *
      * @return bool
      */
     public function hasBall(Ball $ball)
     {
-        return isset($this->ballNumbersHashMap[$ball->getNumber()]);
+        return isset($this->_ballNumbersHashMap[$ball->getNumber()]);
     }
 
     /**
@@ -48,16 +62,20 @@ class HashMapBasket extends AbstractBasket
      */
     public function count()
     {
-        return $this->count;
+        return $this->_count;
     }
 
     /**
-     * @inheritdoc
+     * Actual ball adding code
+     *
+     * @param Ball $ball The ball
+     *
+     * @return void
      */
     protected function putBallInternal(Ball $ball)
     {
-        $this->ballNumbersHashMap[$ball->getNumber()] = true;
-        ++ $this->count;
+        $this->_ballNumbersHashMap[$ball->getNumber()] = true;
+        ++ $this->_count;
     }
 
     /**
@@ -69,7 +87,7 @@ class HashMapBasket extends AbstractBasket
      */
     public function getIterator()
     {
-        foreach ($this->ballNumbersHashMap as $ballNumber => $v) {
+        foreach ($this->_ballNumbersHashMap as $ballNumber => $v) {
             yield new Ball($ballNumber);
         }
     }
