@@ -6,8 +6,7 @@
  * @package domain
  */
 
-namespace domain;
-use bttw\domain\IBasket;
+namespace bttw\domain;
 
 /**
  * Description of the trait

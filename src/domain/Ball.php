@@ -6,7 +6,7 @@
  * @package domain
  */
 
-namespace domain;
+namespace bttw\domain;
 
 /**
  * Ball class
@@ -26,5 +26,10 @@ class Ball
     public function getNumber()
     {
         return $this->number;
+    }
+
+    function __toString()
+    {
+        return 'Ball(' . $this->number . ')';
     }
 }

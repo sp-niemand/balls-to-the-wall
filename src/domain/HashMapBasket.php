@@ -6,7 +6,7 @@
  * @package domain
  */
 
-namespace domain;
+namespace bttw\domain;
 use Traversable;
 
 /**

@@ -7,7 +7,6 @@
  */
 
 namespace bttw\domain;
-use domain\Ball;
 
 /**
  * Basket interface

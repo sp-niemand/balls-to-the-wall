@@ -6,9 +6,7 @@
  * @package domain
  */
 
-namespace domain;
-
-use bttw\domain\IBasket;
+namespace bttw\domain;
 
 /**
  * Abstract basket class
