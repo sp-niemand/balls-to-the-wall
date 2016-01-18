@@ -25,6 +25,15 @@ namespace Bttw\Domain;
 trait UniqueBasketTrait
 {
     /**
+     * Checks if there is the ball given in the basket
+     *
+     * @param Ball $ball The ball
+     *
+     * @return bool
+     */
+    abstract public function hasBall(Ball $ball);
+
+    /**
      * Puts ball into the basket
      *
      * @param Ball $ball The ball
@@ -42,7 +51,7 @@ trait UniqueBasketTrait
     /**
      * Counts the balls common to this and other basket
      *
-     * @param UniqueBasketTrait $other The other basket
+     * @param IBasket $other The other basket
      *
      * @return int
      */
