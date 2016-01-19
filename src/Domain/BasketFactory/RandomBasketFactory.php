@@ -17,7 +17,11 @@ use Bttw\Domain\Ball;
 use Bttw\Domain\Basket\IBasket;
 
 /**
- * Basket factory. Fills
+ * Random basket factory
+ *
+ * Needs an array with length equal to a maximum possible number on a ball.
+ * Obviously bad for large max ball numbers, but is deterministic
+ * in time consumed.
  *
  * @category Bttw
  * @package  Domain\BasketFactory
