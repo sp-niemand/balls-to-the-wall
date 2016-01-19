@@ -6,8 +6,9 @@
  */
 
 namespace Test\Domain;
-use Bttw\Domain\HashMapBasket;
+
 use Bttw\Domain\Ball;
+use Bttw\Domain\Basket\HashMapBasket;
 
 /**
  * HashMapBasket test
@@ -28,7 +29,7 @@ class HashMapBasketTest extends \PHPUnit_Framework_TestCase
         return $result;
     }
 
-    private function putBalls(HashMapBasket $basket, array $numbers)
+    private function putBalls(\Bttw\Domain\Basket\HashMapBasket $basket, array $numbers)
     {
         foreach ($numbers as $number) {
             $basket->putBall(new Ball($number));
@@ -73,7 +74,7 @@ class HashMapBasketTest extends \PHPUnit_Framework_TestCase
     public function testCount()
     {
         $basket = $this->createBasket([], 3);
-        $this->assertEquals(0, $basket->count()) ;
+        $this->assertEquals(0, $basket->count());
 
         $this->putBalls($basket, [5, 7]);
         $this->assertEquals(2, $basket->count());

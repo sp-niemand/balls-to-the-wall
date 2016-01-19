@@ -17,7 +17,7 @@ use Bttw\Domain\Ball;
 use Bttw\Domain\Basket\IBasket;
 
 /**
- * Basket factory
+ * Basket factory. Fills
  *
  * @category Bttw
  * @package  Domain\BasketFactory
@@ -67,5 +67,27 @@ class RandomBasketFactory extends AbstractBasketFactory
             $basket->putBall(new Ball($choice));
         }
         return $basket;
+    }
+
+    /**
+     * Creates a basket filled with a random number of balls
+     *
+     * @param int $size     Basket size
+     * @param int $minCount Min number of balls
+     * @param int $maxCount Max number of balls
+     *
+     * @return IBasket
+     */
+    public function createFilledWithRandomCount($size, $minCount, $maxCount)
+    {
+        if ($minCount < 0) {
+            throw new \InvalidArgumentException('minCount should be positive');
+        }
+        if ($maxCount < $minCount) {
+            throw new \InvalidArgumentException(
+                'maxCount should be greater than minCount'
+            );
+        }
+        return $this->createFilled($size, mt_rand($minCount, $maxCount));
     }
 }
