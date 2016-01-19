@@ -11,7 +11,8 @@
  * @link     https://github.com/sp-niemand/balls-to-the-wall
  */
 
-namespace Bttw\Domain;
+namespace Bttw\Domain\Basket;
+use Bttw\Domain\Ball;
 
 /**
  * Abstract basket class

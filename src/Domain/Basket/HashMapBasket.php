@@ -11,7 +11,8 @@
  * @link     https://github.com/sp-niemand/balls-to-the-wall
  */
 
-namespace Bttw\Domain;
+namespace Bttw\Domain\Basket;
+use Bttw\Domain\Ball;
 use Traversable;
 
 /**
@@ -25,7 +26,7 @@ use Traversable;
  */
 class HashMapBasket extends AbstractBasket
 {
-    use UniqueBasketTrait;
+    use \Bttw\Domain\Basket\UniqueBasketTrait;
 
     /**
      * Hash map used to hold balls info
