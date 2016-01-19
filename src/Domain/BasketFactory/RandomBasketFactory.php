@@ -11,7 +11,7 @@
  * @link     https://github.com/sp-niemand/balls-to-the-wall
  */
 
-namespace Domain\BasketFactory;
+namespace Bttw\Domain\BasketFactory;
 
 use Bttw\Domain\Ball;
 use Bttw\Domain\Basket\IBasket;
