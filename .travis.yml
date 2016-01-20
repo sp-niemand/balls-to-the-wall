@@ -5,6 +5,8 @@ php:
   - '7.0'
   - hhvm
   - nightly
+before_install:
+  - phpenv config-rm xdebug.ini
 install: composer install --prefer-dist
 script:
   - php vendor/bin/phpunit --bootstrap vendor/autoload.php test
