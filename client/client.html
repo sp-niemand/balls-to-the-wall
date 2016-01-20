@@ -122,12 +122,17 @@
         var socket = initSocket();
 
         $('#putBall').click(function () {
-            var ballNumber = parseInt($('#ballNumber').val());
+            var $input = $('#ballNumber');
+            if (! $input.val()) {
+                return;
+            }
+
+            var ballNumber = parseInt($input.val());
             socket.send(JSON.stringify({
                 "type": "PutBall",
                 "ballNumber": ballNumber
             }));
-            $('#ballNumber').val('');
+            $input.val('');
         });
 
         $('#ballNumber').on('keypress', function (e) {

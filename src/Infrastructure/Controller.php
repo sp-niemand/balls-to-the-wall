@@ -14,6 +14,7 @@
 namespace Bttw\Infrastructure;
 
 use Bttw\Domain\BasketFactory\AbstractBasketFactory;
+use Bttw\Infrastructure\Protocol\JsonProtocol;
 use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
 
@@ -68,6 +69,7 @@ class Controller implements MessageComponentInterface
         return new Client(
             $this,
             $connection,
+            new JsonProtocol(),
             $this->_basketFactory->create(USER_BASKET_SIZE),
             $universeBaskets
         );

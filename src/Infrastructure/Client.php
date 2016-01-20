@@ -24,6 +24,7 @@ use Bttw\Infrastructure\Message\Error;
 use Bttw\Infrastructure\Message\Solution;
 use Bttw\Infrastructure\Message\UniverseBaskets;
 use Bttw\Infrastructure\Message\UserBasket;
+use Bttw\Infrastructure\Protocol\IProtocol;
 use Ratchet\ConnectionInterface;
 
 /**
@@ -64,21 +65,30 @@ class Client
     private $_controller;
 
     /**
+     * Protocol instance
+     * @var IProtocol
+     */
+    private $_protocol;
+
+    /**
      * Client constructor.
      *
      * @param Controller          $controller      Controller instance
      * @param ConnectionInterface $connection      Connection instance
+     * @param IProtocol           $protocol        Protocol instance
      * @param IBasket             $userBasket      User's basket
      * @param array               $universeBaskets Universe's baskets
      */
     public function __construct(
         Controller $controller,
         ConnectionInterface $connection,
+        IProtocol $protocol,
         IBasket $userBasket,
         array $universeBaskets
     ) {
         $this->_controller = $controller;
         $this->_connection = $connection;
+        $this->_protocol = $protocol;
         $this->_userBasket = $userBasket;
         $this->_universeBaskets = $universeBaskets;
 
@@ -124,7 +134,7 @@ class Client
         }
 
         $this->_connection->send(
-            Protocol::formatMessage(
+            $this->_protocol->formatMessage(
                 new Solution($wholeOwnedByUser, $oneOwnedByUser)
             )
         );
@@ -176,7 +186,7 @@ class Client
     private function _sendUniverseBaskets()
     {
         $this->_connection->send(
-            Protocol::formatMessage(
+            $this->_protocol->formatMessage(
                 new UniverseBaskets(
                     array_map([$this, '_basketToArray'], $this->_universeBaskets)
                 )
@@ -192,7 +202,7 @@ class Client
     private function _sendUserBasket()
     {
         $this->_connection->send(
-            Protocol::formatMessage(
+            $this->_protocol->formatMessage(
                 new UserBasket(
                     $this->_basketToArray($this->_userBasket)
                 )
@@ -210,7 +220,7 @@ class Client
     private function _sendError($error)
     {
         $this->_connection->send(
-            Protocol::formatMessage(
+            $this->_protocol->formatMessage(
                 new Error((string)$error)
             )
         );
@@ -226,7 +236,7 @@ class Client
     public function receiveCommand($data)
     {
         try {
-            $command = Protocol::parseCommand($data);
+            $command = $this->_protocol->parseCommand($data);
         } catch (ProtocolException $e) {
             $this->_sendError($e);
             return;
@@ -234,12 +244,14 @@ class Client
 
         if ($command instanceof GetBaskets) {
             $this->_receiveGetBaskets($command);
+            return;
         } elseif ($command instanceof GetSolution) {
             $this->_receiveGetSolution($command);
+            return;
         } elseif ($command instanceof PutBall) {
             $this->_receivePutBall($command);
-        } else {
-            $this->_sendError(new ClientException('Unknown command received'));
+            return;
         }
+        $this->_sendError(new ClientException('Unknown command received'));
     }
 }

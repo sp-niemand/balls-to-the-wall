@@ -25,6 +25,6 @@ $ws = new WsServer(new \Bttw\Infrastructure\Controller($basketFactory));
 $ws->disableVersion(0); // old, bad, protocol version
 
 // Make sure you're running this as root
-echo sprintf('Started websocket server on %s:%d', IP, PORT);
+echo sprintf('Started websocket server on %s:%d' . "\n", IP, PORT);
 $server = IoServer::factory(new HttpServer($ws), PORT, IP);
 $server->run();

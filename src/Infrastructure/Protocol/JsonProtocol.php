@@ -5,13 +5,13 @@
  * PHP version 5.5
  *
  * @category Bttw
- * @package  Infrastructure
+ * @package  Infrastructure\Protocol
  * @author   Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
  * @license  https://opensource.org/licenses/MIT MIT
  * @link     https://github.com/sp-niemand/balls-to-the-wall
  */
 
-namespace Bttw\Infrastructure;
+namespace Bttw\Infrastructure\Protocol;
 
 use Bttw\Infrastructure\Command\Command;
 use Bttw\Infrastructure\Command\GetBaskets;
@@ -21,15 +21,15 @@ use Bttw\Infrastructure\Exception\ProtocolException;
 use Bttw\Infrastructure\Message\Message;
 
 /**
- * Protocol helper class
+ * Json protocol implementation
  *
  * @category Bttw
- * @package  Infrastructure
+ * @package  Infrastructure\Protocol
  * @author   Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
  * @license  https://opensource.org/licenses/MIT MIT
  * @link     https://github.com/sp-niemand/balls-to-the-wall
  */
-class Protocol
+class JsonProtocol implements IProtocol
 {
     /**
      * Parses the command from string
@@ -39,7 +39,7 @@ class Protocol
      * @return Command
      * @throws ProtocolException If parsing fails
      */
-    public static function parseCommand($commandString)
+    public function parseCommand($commandString)
     {
         $data = json_decode($commandString, true);
         if (json_last_error() !== JSON_ERROR_NONE) {
@@ -81,7 +81,7 @@ class Protocol
      *
      * @return string
      */
-    public static function formatMessage(Message $message)
+    public function formatMessage(Message $message)
     {
         return json_encode($message);
     }
