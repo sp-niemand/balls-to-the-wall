@@ -33,6 +33,7 @@ class RandomBasketFactory extends AbstractBasketFactory
 {
     /**
      * List of available ball numbers
+     *
      * @var int[]
      */
     private $_ballNumbersAvailable;

@@ -26,6 +26,7 @@ class Ball
 {
     /**
      * Ball number
+     *
      * @var int
      */
     private $_number;

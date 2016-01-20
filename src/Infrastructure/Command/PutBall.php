@@ -28,6 +28,7 @@ class PutBall extends Command
 {
     /**
      * The ball
+     *
      * @var Ball
      */
     private $_ball;

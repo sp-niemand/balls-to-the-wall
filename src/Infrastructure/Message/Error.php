@@ -26,6 +26,7 @@ class Error extends Message
 {
     /**
      * Error message
+     *
      * @var string
      */
     private $_message;

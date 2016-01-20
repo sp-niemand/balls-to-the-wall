@@ -31,12 +31,14 @@ class Controller implements MessageComponentInterface
 {
     /**
      * Client sessions storage
+     *
      * @var \SplObjectStorage
      */
     private $_clients;
 
     /**
      * Basket factory
+     *
      * @var AbstractBasketFactory
      */
     private $_basketFactory;
@@ -106,6 +108,7 @@ class Controller implements MessageComponentInterface
         $client = $this->_clients[$from];
         /**
          * Client instance
+         *
          * @var Client $client
          */
         $client->receiveCommand($data);

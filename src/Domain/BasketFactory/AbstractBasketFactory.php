@@ -29,6 +29,7 @@ abstract class AbstractBasketFactory
 {
     /**
      * Basket class
+     *
      * @var string
      */
     private $_class;

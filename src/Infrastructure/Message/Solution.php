@@ -26,12 +26,14 @@ class Solution extends Message
 {
     /**
      * Numbers of baskets, where balls are fully owned by the user
+     *
      * @var int[]
      */
     private $_wholeOwnedByUser;
 
     /**
      * Numbers of baskets, where exactly one ball is owned by the user
+     *
      * @var int[]
      */
     private $_oneOwnedByUser;

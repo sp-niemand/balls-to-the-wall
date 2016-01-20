@@ -27,6 +27,7 @@ abstract class AbstractBasket implements IBasket
 {
     /**
      * Basket size
+     *
      * @var int
      */
     private $_size;
@@ -47,7 +48,8 @@ abstract class AbstractBasket implements IBasket
     /**
      * (PHP 5 &gt;= 5.1.0)<br/>
      * Count elements of an object
-     * @link http://php.net/manual/en/countable.count.php
+     *
+     * @link   http://php.net/manual/en/countable.count.php
      * @return int The custom count as an integer.
      * </p>
      * <p>

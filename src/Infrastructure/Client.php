@@ -42,30 +42,35 @@ class Client
 {
     /**
      * Connection instance
+     *
      * @var ConnectionInterface
      */
     private $_connection;
 
     /**
      * Universe's baskets
+     *
      * @var IBasket[]
      */
     private $_universeBaskets;
 
     /**
      * User's basket
+     *
      * @var IBasket
      */
     private $_userBasket;
 
     /**
      * WebSocket controller
+     *
      * @var Controller
      */
     private $_controller;
 
     /**
      * Protocol instance
+     *
      * @var IProtocol
      */
     private $_protocol;
@@ -116,11 +121,9 @@ class Client
     /**
      * GetSolution command receiver
      *
-     * @param GetSolution $command Command
-     *
      * @return void
      */
-    private function _receiveGetSolution(GetSolution $command)
+    private function _receiveGetSolution()
     {
         $wholeOwnedByUser = [];
         $oneOwnedByUser = [];
@@ -144,11 +147,9 @@ class Client
     /**
      * GetBaskets command receiver
      *
-     * @param GetBaskets $command Command
-     *
      * @return void
      */
-    private function _receiveGetBaskets(GetBaskets $command)
+    private function _receiveGetBaskets()
     {
         $this->_sendUniverseBaskets();
     }
@@ -244,10 +245,10 @@ class Client
         }
 
         if ($command instanceof GetBaskets) {
-            $this->_receiveGetBaskets($command);
+            $this->_receiveGetBaskets();
             return;
         } elseif ($command instanceof GetSolution) {
-            $this->_receiveGetSolution($command);
+            $this->_receiveGetSolution();
             return;
         } elseif ($command instanceof PutBall) {
             $this->_receivePutBall($command);

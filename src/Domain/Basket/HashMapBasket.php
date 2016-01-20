@@ -26,16 +26,18 @@ use Traversable;
  */
 class HashMapBasket extends AbstractBasket
 {
-    use \Bttw\Domain\Basket\UniqueBasketTrait;
+    use UniqueBasketTrait;
 
     /**
      * Hash map used to hold balls info
+     *
      * @var array
      */
     private $_ballNumbersHashMap = [];
 
     /**
      * Ball counter
+     *
      * @var int
      */
     private $_count = 0;
@@ -55,7 +57,8 @@ class HashMapBasket extends AbstractBasket
     /**
      * (PHP 5 &gt;= 5.1.0)<br/>
      * Count elements of an object
-     * @link http://php.net/manual/en/countable.count.php
+     *
+     * @link   http://php.net/manual/en/countable.count.php
      * @return int The custom count as an integer.
      * </p>
      * <p>
@@ -82,7 +85,8 @@ class HashMapBasket extends AbstractBasket
     /**
      * (PHP 5 &gt;= 5.0.0)<br/>
      * Retrieve an external iterator
-     * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
+     *
+     * @link   http://php.net/manual/en/iteratoraggregate.getiterator.php
      * @return Traversable An instance of an object implementing <b>Iterator</b> or
      * <b>Traversable</b>
      */

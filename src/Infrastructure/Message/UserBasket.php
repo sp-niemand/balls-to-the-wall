@@ -26,6 +26,7 @@ class UserBasket extends Message
 {
     /**
      * Numbers of balls in the basket
+     *
      * @var int[]
      */
     private $_basket;

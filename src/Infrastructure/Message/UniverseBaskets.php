@@ -26,6 +26,7 @@ class UniverseBaskets extends Message
 {
     /**
      * Universe baskets
+     *
      * @var array[]
      */
     private $_baskets;
