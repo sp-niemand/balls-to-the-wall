@@ -2,17 +2,25 @@
 /**
  * Class GetBaskets
  *
- * @package Infrastructure\Command
- * @author  Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * PHP version 5.5
+ *
+ * @category Bttw
+ * @package  Infrastructure\Command
+ * @author   Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * @license  https://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/sp-niemand/balls-to-the-wall
  */
 
 namespace Bttw\Infrastructure\Command;
 
 /**
- * Description of the class
+ * GetBaskets command
  *
- * @package Infrastructure\Command
- * @author  Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * @category Bttw
+ * @package  Infrastructure\Command
+ * @author   Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * @license  https://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/sp-niemand/balls-to-the-wall
  */
 class GetBaskets extends Command
 {

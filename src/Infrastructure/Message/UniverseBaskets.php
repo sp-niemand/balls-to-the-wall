@@ -2,34 +2,61 @@
 /**
  * Class UniverseBaskets
  *
- * @package Infrastructure\Message
- * @author  Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * PHP version 5.5
+ *
+ * @category Bttw
+ * @package  Infrastructure\Message
+ * @author   Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * @license  https://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/sp-niemand/balls-to-the-wall
  */
 
 namespace Bttw\Infrastructure\Message;
 
 /**
- * Description of the class
+ * UniverseBaskets message
  *
- * @package Infrastructure\Message
- * @author  Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * @category Bttw
+ * @package  Infrastructure\Message
+ * @author   Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * @license  https://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/sp-niemand/balls-to-the-wall
  */
 class UniverseBaskets extends Message
 {
-    private $baskets;
+    /**
+     * Universe baskets
+     * @var array[]
+     */
+    private $_baskets;
 
+    /**
+     * UniverseBaskets constructor.
+     *
+     * @param array[] $baskets Universe baskets
+     */
     public function __construct($baskets)
     {
-        $this->baskets = $baskets;
+        $this->_baskets = $baskets;
     }
 
+    /**
+     * Accessor
+     *
+     * @return \array[]
+     */
     public function getBaskets()
     {
-        return $this->baskets;
+        return $this->_baskets;
     }
 
+    /**
+     * Returns additional data for JSON encoding of this class instances
+     *
+     * @return array
+     */
     protected function jsonData()
     {
-        return ['baskets' => $this->baskets];
+        return ['baskets' => $this->_baskets];
     }
 }

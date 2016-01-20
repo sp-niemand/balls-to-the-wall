@@ -82,6 +82,15 @@ abstract class AbstractBasketFactory
         return (new $class($size));
     }
 
+    /**
+     * Counts number of balls needed for the basket of given size
+     * with the ball count given
+     *
+     * @param int      $size  Basket size
+     * @param null|int $count Balls count needed. Default: random.
+     *
+     * @return mixed
+     */
     protected function getBallsToGenerateCount($size, $count = null)
     {
         if ($count === null) {

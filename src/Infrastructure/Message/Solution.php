@@ -2,63 +2,82 @@
 /**
  * Class Solution
  *
- * @package Infrastructure\Message
- * @author  Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * PHP version 5.5
+ *
+ * @category Bttw
+ * @package  Infrastructure\Message
+ * @author   Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * @license  https://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/sp-niemand/balls-to-the-wall
  */
 
 namespace Bttw\Infrastructure\Message;
 
 /**
- * Description of the class
+ * Solution message
  *
- * @package Infrastructure\Message
- * @author  Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * @category Bttw
+ * @package  Infrastructure\Message
+ * @author   Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * @license  https://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/sp-niemand/balls-to-the-wall
  */
 class Solution extends Message
 {
     /**
+     * Numbers of baskets, where balls are fully owned by the user
      * @var int[]
      */
-    private $wholeOwnedByUser;
+    private $_wholeOwnedByUser;
 
     /**
+     * Numbers of baskets, where exactly one ball is owned by the user
      * @var int[]
      */
-    private $oneOwnedByUser;
+    private $_oneOwnedByUser;
 
     /**
      * Solution constructor.
      *
-     * @param int[] $wholeOwnedByUser
-     * @param int[] $oneOwnedByUser
+     * @param int[] $wholeOwnedByUser Baskets fully owned
+     * @param int[] $oneOwnedByUser   Baskets with exactly one ball owned
      */
     public function __construct(array $wholeOwnedByUser, array $oneOwnedByUser)
     {
-        $this->wholeOwnedByUser = $wholeOwnedByUser;
-        $this->oneOwnedByUser = $oneOwnedByUser;
+        $this->_wholeOwnedByUser = $wholeOwnedByUser;
+        $this->_oneOwnedByUser = $oneOwnedByUser;
     }
 
     /**
-     * @return mixed
+     * Accessor
+     *
+     * @return int[]
      */
     public function getWholeOwnedByUser()
     {
-        return $this->wholeOwnedByUser;
+        return $this->_wholeOwnedByUser;
     }
 
     /**
-     * @return mixed
+     * Accessor
+     *
+     * @return int[]
      */
     public function getOneOwnedByUser()
     {
-        return $this->oneOwnedByUser;
+        return $this->_oneOwnedByUser;
     }
 
+    /**
+     * Returns additional data for JSON encoding of this class instances
+     *
+     * @return array
+     */
     protected function jsonData()
     {
         return [
-            'wholeOwnedByUser' => $this->wholeOwnedByUser,
-            'oneOwnedByUser' => $this->oneOwnedByUser,
+            'wholeOwnedByUser' => $this->_wholeOwnedByUser,
+            'oneOwnedByUser' => $this->_oneOwnedByUser,
         ];
     }
 }

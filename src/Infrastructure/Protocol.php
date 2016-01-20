@@ -2,26 +2,43 @@
 /**
  * Class Protocol
  *
- * @package Infrastructure
- * @author  Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * PHP version 5.5
+ *
+ * @category Bttw
+ * @package  Infrastructure
+ * @author   Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * @license  https://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/sp-niemand/balls-to-the-wall
  */
 
 namespace Bttw\Infrastructure;
 
+use Bttw\Infrastructure\Command\Command;
 use Bttw\Infrastructure\Command\GetBaskets;
 use Bttw\Infrastructure\Command\GetSolution;
+use Bttw\Infrastructure\Command\PutBall;
 use Bttw\Infrastructure\Exception\ProtocolException;
 use Bttw\Infrastructure\Message\Message;
-use Bttw\Infrastructure\Command\PutBall;
 
 /**
- * Description of the class
+ * Protocol helper class
  *
- * @package Infrastructure
- * @author  Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * @category Bttw
+ * @package  Infrastructure
+ * @author   Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * @license  https://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/sp-niemand/balls-to-the-wall
  */
 class Protocol
 {
+    /**
+     * Parses the command from string
+     *
+     * @param string $commandString Raw command string
+     *
+     * @return Command
+     * @throws ProtocolException If parsing fails
+     */
     public static function parseCommand($commandString)
     {
         $data = json_decode($commandString, true);
@@ -48,7 +65,7 @@ class Protocol
         case GetSolution::class:
             return new GetSolution();
         case PutBall::class:
-            if (! isset($data['ballNumber'])) {
+            if (!isset($data['ballNumber'])) {
                 throw new ProtocolException('Ball number not given');
             }
             return new PutBall($data['ballNumber']);
@@ -57,6 +74,13 @@ class Protocol
         }
     }
 
+    /**
+     * Formats the message to string
+     *
+     * @param Message $message Message
+     *
+     * @return string
+     */
     public static function formatMessage(Message $message)
     {
         return json_encode($message);

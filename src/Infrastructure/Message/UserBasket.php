@@ -2,34 +2,61 @@
 /**
  * Class UserBasket
  *
- * @package Infrastructure\Message
- * @author  Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * PHP version 5.5
+ *
+ * @category Bttw
+ * @package  Infrastructure\Message
+ * @author   Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * @license  https://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/sp-niemand/balls-to-the-wall
  */
 
 namespace Bttw\Infrastructure\Message;
 
 /**
- * Description of the class
+ * UserBasket message
  *
- * @package Infrastructure\Message
- * @author  Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * @category Bttw
+ * @package  Infrastructure\Message
+ * @author   Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * @license  https://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/sp-niemand/balls-to-the-wall
  */
 class UserBasket extends Message
 {
-    private $basket;
+    /**
+     * Numbers of balls in the basket
+     * @var int[]
+     */
+    private $_basket;
 
+    /**
+     * UserBasket constructor.
+     *
+     * @param int[] $basket Basket
+     */
     public function __construct($basket)
     {
-        $this->basket = $basket;
+        $this->_basket = $basket;
     }
 
+    /**
+     * Accessor
+     *
+     * @return \int[]
+     */
     public function getBaskets()
     {
-        return $this->basket;
+        return $this->_basket;
     }
 
+    /**
+     * Returns additional data for JSON encoding of this class instances
+     *
+     * @return array
+     */
     protected function jsonData()
     {
-        return ['basket' => $this->basket];
+        return ['basket' => $this->_basket];
     }
 }

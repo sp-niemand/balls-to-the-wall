@@ -2,8 +2,13 @@
 /**
  * Class Client
  *
- * @package Infrastructure
- * @author  Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * PHP version 5.5
+ *
+ * @category Bttw
+ * @package  Infrastructure
+ * @author   Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * @license  https://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/sp-niemand/balls-to-the-wall
  */
 
 namespace Bttw\Infrastructure;
@@ -12,68 +17,83 @@ use Bttw\Domain\Ball;
 use Bttw\Domain\Basket\IBasket;
 use Bttw\Infrastructure\Command\GetBaskets;
 use Bttw\Infrastructure\Command\GetSolution;
+use Bttw\Infrastructure\Command\PutBall;
 use Bttw\Infrastructure\Exception\ClientException;
 use Bttw\Infrastructure\Exception\ProtocolException;
 use Bttw\Infrastructure\Message\Error;
-use Bttw\Infrastructure\Command\PutBall;
 use Bttw\Infrastructure\Message\Solution;
 use Bttw\Infrastructure\Message\UniverseBaskets;
 use Bttw\Infrastructure\Message\UserBasket;
 use Ratchet\ConnectionInterface;
 
 /**
- * Description of the class
+ * Application client
  *
- * @package Infrastructure
- * @author  Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * Represents session on server. One gets created for every connection.
+ *
+ * @category Bttw
+ * @package  Infrastructure
+ * @author   Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * @license  https://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/sp-niemand/balls-to-the-wall
  */
 class Client
 {
     /**
+     * Connection instance
      * @var ConnectionInterface
      */
-    private $connection;
+    private $_connection;
 
     /**
+     * Universe's baskets
      * @var IBasket[]
      */
-    private $universeBaskets;
+    private $_universeBaskets;
 
     /**
+     * User's basket
      * @var IBasket
      */
-    private $userBasket;
+    private $_userBasket;
 
     /**
+     * WebSocket controller
      * @var Controller
      */
-    private $controller;
+    private $_controller;
 
     /**
      * Client constructor.
      *
-     * @param Controller          $controller
-     * @param ConnectionInterface $connection
-     * @param IBasket             $userBasket
-     * @param array               $universeBaskets
+     * @param Controller          $controller      Controller instance
+     * @param ConnectionInterface $connection      Connection instance
+     * @param IBasket             $userBasket      User's basket
+     * @param array               $universeBaskets Universe's baskets
      */
     public function __construct(
         Controller $controller,
         ConnectionInterface $connection,
         IBasket $userBasket,
         array $universeBaskets
-    )
-    {
-        $this->controller = $controller;
-        $this->connection = $connection;
-        $this->userBasket = $userBasket;
-        $this->universeBaskets = $universeBaskets;
+    ) {
+        $this->_controller = $controller;
+        $this->_connection = $connection;
+        $this->_userBasket = $userBasket;
+        $this->_universeBaskets = $universeBaskets;
 
-        $this->sendUniverseBaskets();
-        $this->sendUserBasket();
+        $this->_sendUniverseBaskets();
+        $this->_sendUserBasket();
     }
 
-    private function basketToArray(IBasket $basket)
+    /**
+     * Creates array with ball numbers from the basket
+     *
+     * @param IBasket $basket Basket
+     *
+     * @return array
+     */
+    private function _basketToArray(IBasket $basket)
     {
         return array_map(
             function (Ball $ball) {
@@ -83,12 +103,19 @@ class Client
         );
     }
 
-    private function receiveGetSolution(GetSolution $command)
+    /**
+     * GetSolution command receiver
+     *
+     * @param GetSolution $command Command
+     *
+     * @return void
+     */
+    private function _receiveGetSolution(GetSolution $command)
     {
         $wholeOwnedByUser = [];
         $oneOwnedByUser = [];
-        foreach ($this->universeBaskets as $index => $basket) {
-            $commonBallCount = $this->userBasket->countCommonBalls($basket);
+        foreach ($this->_universeBaskets as $index => $basket) {
+            $commonBallCount = $this->_userBasket->countCommonBalls($basket);
             if ($commonBallCount === 1) {
                 $oneOwnedByUser[] = $index;
             } elseif ($commonBallCount === $basket->count()) {
@@ -96,85 +123,123 @@ class Client
             }
         }
 
-        $this->connection->send(
+        $this->_connection->send(
             Protocol::formatMessage(
                 new Solution($wholeOwnedByUser, $oneOwnedByUser)
             )
         );
     }
 
-    private function receiveGetBaskets(GetBaskets $command)
+    /**
+     * GetBaskets command receiver
+     *
+     * @param GetBaskets $command Command
+     *
+     * @return void
+     */
+    private function _receiveGetBaskets(GetBaskets $command)
     {
-        $this->sendUniverseBaskets();
+        $this->_sendUniverseBaskets();
     }
 
-    private function receivePutBall(PutBall $command)
+    /**
+     * PutBall command receiver
+     *
+     * @param PutBall $command Command
+     *
+     * @return void
+     */
+    private function _receivePutBall(PutBall $command)
     {
         $number = $command->getBall()->getNumber();
         if ($number > MAX_BALL_NUMBER || $number < 1) {
-            $this->sendError('Wrong ball number given');
-            $this->sendUserBasket();
+            $this->_sendError('Wrong ball number given');
+            $this->_sendUserBasket();
             return;
         }
 
         try {
-            $this->userBasket->putBall($command->getBall());
+            $this->_userBasket->putBall($command->getBall());
         } catch (\OverflowException $e) {
-            $this->sendError('Your basket is full');
+            $this->_sendError('Your basket is full');
         } catch (\Exception $e) {
-            $this->sendError('Error: ' . $e->getMessage());
+            $this->_sendError('Error: ' . $e->getMessage());
         }
-        $this->sendUserBasket();
+        $this->_sendUserBasket();
     }
 
-    private function sendUniverseBaskets()
+    /**
+     * UniverseBaskets message sender
+     *
+     * @return void
+     */
+    private function _sendUniverseBaskets()
     {
-        $this->connection->send(
+        $this->_connection->send(
             Protocol::formatMessage(
                 new UniverseBaskets(
-                    array_map([$this, 'basketToArray'], $this->universeBaskets)
+                    array_map([$this, '_basketToArray'], $this->_universeBaskets)
                 )
             )
         );
     }
 
-    private function sendUserBasket()
+    /**
+     * UserBasket message sender
+     *
+     * @return void
+     */
+    private function _sendUserBasket()
     {
-        $this->connection->send(
+        $this->_connection->send(
             Protocol::formatMessage(
                 new UserBasket(
-                    $this->basketToArray($this->userBasket)
+                    $this->_basketToArray($this->_userBasket)
                 )
             )
         );
     }
 
-    private function sendError($error)
+    /**
+     * Error message sender
+     *
+     * @param string $error Message
+     *
+     * @return void
+     */
+    private function _sendError($error)
     {
-        $this->connection->send(
+        $this->_connection->send(
             Protocol::formatMessage(
-                new Error((string) $error)
+                new Error((string)$error)
             )
         );
     }
 
+    /**
+     * Data receiver
+     *
+     * @param string $data Raw data
+     *
+     * @return void
+     */
     public function receiveCommand($data)
     {
         try {
             $command = Protocol::parseCommand($data);
         } catch (ProtocolException $e) {
-            $this->sendError($e);
+            $this->_sendError($e);
             return;
         }
 
         if ($command instanceof GetBaskets) {
-            $this->receiveGetBaskets($command);
+            $this->_receiveGetBaskets($command);
         } elseif ($command instanceof GetSolution) {
-            $this->receiveGetSolution($command);
+            $this->_receiveGetSolution($command);
         } elseif ($command instanceof PutBall) {
-            $this->receivePutBall($command);
+            $this->_receivePutBall($command);
         } else {
-            $this->sendError(new ClientException('Unknown command received'));
+            $this->_sendError(new ClientException('Unknown command received'));
         }
     }
 }

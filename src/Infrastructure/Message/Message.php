@@ -2,23 +2,33 @@
 /**
  * Class Message
  *
- * @package Infrastructure\Message
- * @author  Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * PHP version 5.5
+ *
+ * @category Bttw
+ * @package  Infrastructure\Message
+ * @author   Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * @license  https://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/sp-niemand/balls-to-the-wall
  */
 
 namespace Bttw\Infrastructure\Message;
 
 /**
- * Description of the class
+ * Base message
  *
- * @package Infrastructure\Message
- * @author  Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * @category Bttw
+ * @package  Infrastructure\Message
+ * @author   Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * @license  https://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/sp-niemand/balls-to-the-wall
  */
 abstract class Message implements \JsonSerializable
 {
     const NAMESPACE_SEPARATOR = '\\';
 
     /**
+     * Returns additional data for JSON encoding of this class instances
+     *
      * @return array
      */
     protected function jsonData()
@@ -26,10 +36,17 @@ abstract class Message implements \JsonSerializable
         return [];
     }
 
+    /**
+     * Implements jsonSerialize() from \JsonSerializable interface
+     *
+     * @return array
+     */
     public function jsonSerialize()
     {
         $result = $this->jsonData();
-        $result['type'] = substr(strrchr(static::class, self::NAMESPACE_SEPARATOR), 1);
+        $result['type'] = substr(
+            strrchr(static::class, self::NAMESPACE_SEPARATOR), 1
+        );
         return $result;
     }
 }

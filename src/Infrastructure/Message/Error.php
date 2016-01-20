@@ -2,42 +2,61 @@
 /**
  * Class Error
  *
- * @package Infrastructure\Message
- * @author  Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * PHP version 5.5
+ *
+ * @category Bttw
+ * @package  Infrastructure\Message
+ * @author   Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * @license  https://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/sp-niemand/balls-to-the-wall
  */
 
 namespace Bttw\Infrastructure\Message;
 
 /**
- * Description of the class
+ * Error message
  *
- * @package Infrastructure\Message
- * @author  Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * @category Bttw
+ * @package  Infrastructure\Message
+ * @author   Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * @license  https://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/sp-niemand/balls-to-the-wall
  */
 class Error extends Message
 {
-    private $message;
+    /**
+     * Error message
+     * @var string
+     */
+    private $_message;
 
     /**
      * Error constructor.
      *
-     * @param $message
+     * @param string $message Error message
      */
     public function __construct($message)
     {
-        $this->message = $message;
+        $this->_message = $message;
     }
 
     /**
+     * Message accessor
+     *
      * @return string
      */
     public function getMessage()
     {
-        return $this->message;
+        return $this->_message;
     }
 
+    /**
+     * Returns data for JSON encoding of this class instances
+     *
+     * @return array
+     */
     protected function jsonData()
     {
-        return ['message' => $this->message];
+        return ['message' => $this->_message];
     }
 }
