@@ -128,7 +128,8 @@ class Client
             $commonBallCount = $this->_userBasket->countCommonBalls($basket);
             if ($commonBallCount === 1) {
                 $oneOwnedByUser[] = $index;
-            } elseif ($commonBallCount === $basket->count()) {
+            }
+            if ($commonBallCount === $basket->count()) {
                 $wholeOwnedByUser[] = $index;
             }
         }
