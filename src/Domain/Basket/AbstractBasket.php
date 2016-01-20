@@ -64,6 +64,7 @@ abstract class AbstractBasket implements IBasket
      * @param Ball $ball The ball
      *
      * @return void
+     * @throws \OverflowException If the basket is already full
      */
     public function putBall(Ball $ball)
     {

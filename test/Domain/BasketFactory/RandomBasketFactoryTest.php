@@ -54,14 +54,4 @@ class RandomBasketFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertGreaterThanOrEqual($expected[0], $actual);
         $this->assertLessThanOrEqual($expected[1], $actual);
     }
-
-    public function testCreateFilledWithRandomCount()
-    {
-        $factory = $this->getFactory();
-
-        for ($i=0; $i<50; ++$i) {
-            $basket = $factory->createFilledWithRandomCount(20, 4, 14);
-            $this->assertBetween([4, 14], $basket->count());
-        }
-    }
 }

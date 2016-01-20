@@ -9,6 +9,9 @@
             "email": "codernumber1@gmail.com"
         }
     ],
+    "require": {
+        "cboden/ratchet": "0.3.*"
+    },
     "require-dev": {
         "phpunit/phpunit": "4.8.*",
         "squizlabs/php_codesniffer": "~2.5.0",

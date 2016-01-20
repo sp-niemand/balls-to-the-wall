@@ -82,13 +82,21 @@ abstract class AbstractBasketFactory
         return (new $class($size));
     }
 
+    protected function getBallsToGenerateCount($size, $count = null)
+    {
+        if ($count === null) {
+            $count = mt_rand(1, $size);
+        }
+        return min($count, $size);
+    }
+
     /**
      * Creates a basket filled with balls
      *
-     * @param int $size  Basket size
-     * @param int $count Balls to create
+     * @param int      $size  Basket size
+     * @param int|null $count Balls to create. Random number if null
      *
      * @return AbstractBasket
      */
-    abstract public function createFilled($size, $count);
+    abstract public function createFilled($size, $count = null);
 }

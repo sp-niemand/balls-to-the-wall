@@ -52,15 +52,15 @@ class RandomBasketFactory extends AbstractBasketFactory
     /**
      * Creates randomly filled basket
      *
-     * @param int $size  Basket size
-     * @param int $count Balls to create
+     * @param int      $size  Basket size
+     * @param int|null $count Balls to create. Random number of balls if null
      *
      * @return IBasket
      */
-    public function createFilled($size, $count)
+    public function createFilled($size, $count = null)
     {
+        $ballsToGenerate = $this->getBallsToGenerateCount($size, $count);
         $basket = $this->create($size);
-        $ballsToGenerate = min($count, $size);
         // partially used shuffling algorithm
         for ($i = 0; $i < $ballsToGenerate; ++$i) {
             $choiceIndex = mt_rand($i, count($this->_ballNumbersAvailable) - 1);
@@ -71,27 +71,5 @@ class RandomBasketFactory extends AbstractBasketFactory
             $basket->putBall(new Ball($choice));
         }
         return $basket;
-    }
-
-    /**
-     * Creates a basket filled with a random number of balls
-     *
-     * @param int $size     Basket size
-     * @param int $minCount Min number of balls
-     * @param int $maxCount Max number of balls
-     *
-     * @return IBasket
-     */
-    public function createFilledWithRandomCount($size, $minCount, $maxCount)
-    {
-        if ($minCount < 0) {
-            throw new \InvalidArgumentException('minCount should be positive');
-        }
-        if ($maxCount < $minCount) {
-            throw new \InvalidArgumentException(
-                'maxCount should be greater than minCount'
-            );
-        }
-        return $this->createFilled($size, mt_rand($minCount, $maxCount));
     }
 }

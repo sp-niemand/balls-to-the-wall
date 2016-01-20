@@ -1,0 +1,155 @@
+<html>
+<head>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-7s5uDGW3AHqw6xtJmNNtr+OBRJUlgkNJEo78P4b0yRw= sha512-nNo+yCHEyn0smMxSswnf/OnX6/KwJuZTlNZBjauKhTK0c+zT+q5JOCx0UFhXQ6rJR9jg6Es8gPuD2uZcYDLqSw==" crossorigin="anonymous">
+</head>
+<body>
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha256-KXn5puMvxCw+dAYznun+drMdG1IFl3agK0p/pqT9KAo= sha512-2e8qq0ETcfWRI4HJBzQiA3UoyFk6tbNyG+qSaIBZLyW9Xf3sWZHN/lxe9fTh1U45DpPf07yj94KsUHHWe4Yk1A==" crossorigin="anonymous"></script>
+
+<div class="container">
+    <h1>Balls to the wall client</h1>
+
+    <div class="col-md-12" id="alertContainer"></div>
+
+    <div class="col-md-12">
+        <form id="form">
+            <div class="form-group">
+                <label>Universe's baskets</label>
+                <pre id="universeBaskets">UNKNOWN</pre>
+            </div>
+
+            <div class="form-group">
+                <label>Your basket</label>
+                <pre id="userBasket">UNKNOWN</pre>
+            </div>
+
+            <div class="form-group">
+                <label for="ballNumber">Add ball</label>
+                <input class="form-control" type="number" id="ballNumber" placeholder="ball number"
+                    min="1" max="999">
+                <button type="button" class="btn" id="putBall">Add</button>
+            </div>
+
+            <!--<div class="form-group">-->
+                <!--<label>Get baskets</label>-->
+                <!--<button type="button" class="btn" id="getBaskets">Get</button>-->
+            <!--</div>-->
+
+            <div class="form-group">
+                <label>Get solution</label>
+                <button type="button" class="btn" id="getSolution">Get</button>
+            </div>
+        </form>
+    </div>
+</div> <!-- end of container -->
+<script>
+    $(function () {
+        function error(msg)
+        {
+            alert(msg);
+        }
+
+        var numberCmpFn = function (a, b) { return a - b; };
+
+        function formatBasket(basket)
+        {
+            if (! basket.length) {
+                return 'EMPTY';
+            }
+            return basket.sort(numberCmpFn).join(', ');
+        }
+
+        function formatUniverseBaskets(baskets)
+        {
+            return baskets.map(function (basket, index) {
+                return 'Basket ' + index + ': ' + formatBasket(basket);
+            }).join('\n');
+        }
+
+        function formatSolution(data) {
+            var wholeOwned = 'NONE';
+            if (data.wholeOwnedByUser && data.wholeOwnedByUser.length) {
+                wholeOwned = data.wholeOwnedByUser.sort(numberCmpFn).join(', ');
+            }
+            var oneOwned = 'NONE';
+            if (data.oneOwnedByUser && data.oneOwnedByUser.length) {
+                oneOwned = data.oneOwnedByUser.sort(numberCmpFn).join(', ');
+            }
+            return 'Whole baskets, owned by user: '
+                + wholeOwned
+                + '\nBaskets with only one ball owned by user: '
+                + oneOwned;
+        }
+
+        function initSocket()
+        {
+            var socket = new WebSocket("ws://localhost:8000");
+
+            socket.onopen = function() {
+                console.info("Соединение установлено.");
+            };
+
+            socket.onclose = function(event) {
+                if (event.wasClean) {
+                    console.info('Соединение закрыто чисто');
+                } else {
+                    error('Обрыв соединения'); // например, "убит" процесс сервера
+                }
+                console.info('Код: ' + event.code + ' причина: ' + event.reason);
+                $('#form :input').attr('disabled', true);
+            };
+
+            socket.onmessage = function(event) {
+                var dataString = event.data;
+                var data = JSON.parse(dataString);
+                if (data.type == 'Error') {
+                    error(data.message);
+                } else {
+                    console.log("Получены данные " + event.data);
+                }
+
+                if (data.type == 'UserBasket') {
+                    $('#userBasket').html(formatBasket(data.basket));
+                } else if (data.type == 'UniverseBaskets') {
+                    $('#universeBaskets').html(formatUniverseBaskets(data.baskets));
+                } else if (data.type == 'Solution') {
+                    alert(formatSolution(data));
+                }
+            };
+
+            socket.onerror = function(error) {
+                error("Ошибка " + error.message);
+            };
+
+            return socket;
+        }
+
+        var socket = initSocket();
+
+        $('#putBall').click(function () {
+            var ballNumber = parseInt($('#ballNumber').val());
+            socket.send(JSON.stringify({
+                "type": "PutBall",
+                "ballNumber": ballNumber
+            }));
+            $('#ballNumber').val('');
+        });
+
+        $('#ballNumber').on('keypress', function (e) {
+            var code = e.keyCode || e.which;
+            if(code == 13) { //Enter keycode
+                $('#putBall').click();
+                return e.preventDefault();
+            }
+        });
+
+        $('#getSolution').click(function () {
+            socket.send(JSON.stringify({
+                "type": "GetSolution"
+            }));
+        });
+    });
+</script>
+</body>
+</html>
+
