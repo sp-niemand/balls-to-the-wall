@@ -25,7 +25,7 @@ This task is your best opportunity to showcase your skills and impress us, so pr
 
 ## Requirements
 
-* PHP 5.5+ (entire app tested on PHP 5.5, but should also work on 5.6 and 7.0)
+* PHP 5.5+ (entire app tested on PHP 5.6, but should also work on 5.5 and 7.0)
 
 ## Install
 
