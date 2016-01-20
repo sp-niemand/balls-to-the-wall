@@ -85,7 +85,7 @@ class Controller implements MessageComponentInterface
     public function onOpen(ConnectionInterface $connection)
     {
         $connHash = spl_object_hash($connection);
-        echo "New connection! ({spl_object_hash($connHash)})\n";
+        echo "New connection! ($connHash)\n";
         $this->_clients->attach($connection, $this->_createNewClient($connection));
     }
 
