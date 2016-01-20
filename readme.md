@@ -40,6 +40,10 @@ just open the page in browser (tested in Chrome).
 * phpcs: `vendor/bin/phpcs src`
 * phpmd: `vendor/bin/phpmd src text cleancode`
 
+## Implementation
+
+This is a WebSocket server backend built using [Ratchet](http://socketo.me/)
+
 ## Inspiration video
 
 [![Project name inspiration](http://img.youtube.com/vi/B_3TlrZLpQ0/hqdefault.jpg)] (https://www.youtube.com/watch?v=B_3TlrZLpQ0 "Project name inspiration")
