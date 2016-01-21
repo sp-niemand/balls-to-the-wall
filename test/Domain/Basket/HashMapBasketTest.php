@@ -2,7 +2,7 @@
 /**
  * Class HashMapBasketTest
  *
- * @author Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * @author Dmitri Cherepovski <codernumber1@gmail.com>
  */
 
 namespace Test\Domain;
@@ -13,7 +13,7 @@ use Bttw\Domain\Basket\HashMapBasket;
 /**
  * HashMapBasket test
  *
- * @author Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * @author Dmitri Cherepovski <codernumber1@gmail.com>
  */
 class HashMapBasketTest extends \PHPUnit_Framework_TestCase
 {

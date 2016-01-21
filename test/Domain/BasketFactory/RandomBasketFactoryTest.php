@@ -3,7 +3,7 @@
  * Class RandomBasketFactoryTest
  *
  * @package Domain\BasketFactory
- * @author  Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * @author  Dmitri Cherepovski <codernumber1@gmail.com>
  */
 
 namespace Domain\BasketFactory;
@@ -14,7 +14,7 @@ use Bttw\Domain\BasketFactory\RandomBasketFactory;
  * Description of the class
  *
  * @package Domain\BasketFactory
- * @author  Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * @author  Dmitri Cherepovski <codernumber1@gmail.com>
  */
 class RandomBasketFactoryTest extends \PHPUnit_Framework_TestCase
 {

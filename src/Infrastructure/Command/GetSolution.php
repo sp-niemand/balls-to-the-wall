@@ -6,7 +6,7 @@
  *
  * @category Bttw
  * @package  Infrastructure\Command
- * @author   Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * @author   Dmitri Cherepovski <codernumber1@gmail.com>
  * @license  https://opensource.org/licenses/MIT MIT
  * @link     https://github.com/sp-niemand/balls-to-the-wall
  */
@@ -18,7 +18,7 @@ namespace Bttw\Infrastructure\Command;
  *
  * @category Bttw
  * @package  Infrastructure\Command
- * @author   Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * @author   Dmitri Cherepovski <codernumber1@gmail.com>
  * @license  https://opensource.org/licenses/MIT MIT
  * @link     https://github.com/sp-niemand/balls-to-the-wall
  */
